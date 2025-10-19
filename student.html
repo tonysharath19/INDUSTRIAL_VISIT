@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Registration | Industrial Visit</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="student.css">
+</head>
+<body>
+  <header class="site-header">
+    <button class="hamburger" id="hamburger">☰</button>
+    <div class="brand">Industrial Visit</div>
+    <a class="home-btn" href="index.html">Home</a>
+  </header>
+
+  <main class="site-main">
+    <section class="form-section">
+      <h1>Student Registration Form</h1>
+      <p class="lead">Please fill in all required details for the Industrial Visit.</p>
+
+      <form id="studentForm" novalidate>
+        <div class="form-group">
+          <label for="usn">USN</label>
+          <input type="text" id="usn" name="usn" maxlength="10" pattern="[A-Za-z0-9]{10}" required>
+        </div>
+
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="branch">Branch</label>
+          <select id="branch" name="branch" required>
+            <option value="">Select branch</option>
+            <option value="AIML">AIML</option>
+            <option value="AIDS">AIDS</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="gender">Gender</label>
+          <select id="gender" name="gender" required>
+            <option value="">Select gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" maxlength="10" pattern="[0-9]{10}" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+
+        <h2>Meal Preferences</h2>
+        <div class="form-row">
+          <label for="meal1">Day 1 (Thursday)</label>
+          <select id="meal1" name="meal1" required>
+            <option value="">Select</option>
+            <option value="Veg">Veg</option>
+            <option value="Non-Veg">Non-Veg</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="meal2">Day 2 (Friday)</label>
+          <select id="meal2" name="meal2" required>
+            <option value="">Select</option>
+            <option value="Veg">Veg</option>
+            <option value="Non-Veg">Non-Veg</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="meal3">Day 3 (Saturday)</label>
+          <select id="meal3" name="meal3" required>
+            <option value="">Select</option>
+            <option value="Veg">Veg</option>
+            <option value="Non-Veg">Non-Veg</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="special">Special Requests / Information (Health or Other)</label>
+          <textarea id="special" name="special" maxlength="500" rows="4" required></textarea>
+          <small id="charCount">0 / 500</small>
+        </div>
+
+        <button type="submit" class="btn primary">Submit</button>
+      </form>
+
+      <div class="success-box hidden" id="successBox">
+        <div class="tick-mark">
+          <div class="circle"></div>
+          <div class="check"></div>
+        </div>
+        <h2>Form submitted successfully!</h2>
+        <p>If you need to make any changes, please contact admin (YASHWANTH).</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>© 2025 | All rights reserved</div>
+  </footer>
+
+  <script src="student.js"></script>
+</body>
+</html>

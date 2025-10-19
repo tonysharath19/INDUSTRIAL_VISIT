@@ -1,0 +1,134 @@
+/* Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  body {
+    background: var(--bg);
+  }
+
+  .site-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 64px - 50px); /* Adjust for header and footer heights */
+  }
+
+  .login-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .login-card {
+    background: #ffffff;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 400px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .login-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .login-card h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #1a3c6e;
+  }
+
+  .field {
+    margin-bottom: 20px;
+  }
+
+  .field label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 500;
+  }
+
+  .field input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .field input:focus {
+    outline: none;
+    border-color: #1a73e8;
+    box-shadow: 0 0 8px rgba(26, 115, 232, 0.3);
+  }
+
+  .pw-row {
+    position: relative;
+  }
+
+  .pw-row input {
+    padding-right: 40px;
+  }
+
+  .pw-row button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .actions {
+    margin-top: 20px;
+  }
+
+  .btn.primary {
+    width: 100%;
+    padding: 12px;
+    background: #1a73e8;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+
+  .btn.primary:hover {
+    background: #1665c1;
+    transform: translateY(-2px);
+  }
+
+  .msg {
+    margin-top: 15px;
+    text-align: center;
+    color: #ffffff;
+    font-weight: 500;
+  }
+
+  .hint {
+    display: block;
+    margin-top: 15px;
+    text-align: center;
+    color: #ffffff;
+  }
+  
+  /* Responsive */
+  @media (max-width: 500px) {
+    .login-container {
+      padding: 30px 20px;
+    }
+  }
+  

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Industrial Visit</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <header class="admin-header">
+    <button class="hamburger" id="hamburger" aria-label="Open menu">☰</button>
+    <div class="brand">Industrial Visit Admin</div>
+    <button id="logoutBtn">Logout</button>
+  </header>
+
+  <main class="admin-main">
+    <h1>Registered Students</h1>
+    <div class="table-controls">
+      <input type="text" id="searchInput" placeholder="Search by USN">
+      <select id="branchFilter">
+        <option value="">All Branches</option>
+        <option value="AIML">AIML</option>
+        <option value="AIDS">AIDS</option>
+      </select>
+      <select id="genderFilter">
+        <option value="">All Genders</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
+      <select id="meal1Filter">
+        <option value="">Day 1 All</option>
+        <option value="Veg">Day 1 Veg</option>
+        <option value="Non-Veg">Day 1 Non-Veg</option>
+      </select>
+      <select id="meal2Filter">
+        <option value="">Day 2 All</option>
+        <option value="Veg">Day 2 Veg</option>
+        <option value="Non-Veg">Day 2 Non-Veg</option>
+      </select>
+      <select id="meal3Filter">
+        <option value="">Day 3 All</option>
+        <option value="Veg">Day 3 Veg</option>
+        <option value="Non-Veg">Day 3 Non-Veg</option>
+      </select>
+      <button id="addStudentBtn">Add Student</button>
+      <button id="downloadBtn">Download Excel</button>
+      <div id="totalCount" style="margin-left: auto; font-weight: bold;"></div>
+    </div>
+    <div class="table-wrapper">
+      <table id="studentsTable">
+        <thead>
+          <tr>
+            <th data-key="usn">USN</th>
+            <th data-key="name">Name</th>
+            <th data-key="branch">Branch</th>
+            <th data-key="gender">Gender</th>
+            <th data-key="phone">Phone</th>
+            <th data-key="email">Email</th>
+            <th data-key="meal1">Meal Day 1</th>
+            <th data-key="meal2">Meal Day 2</th>
+            <th data-key="meal3">Meal Day 3</th>
+            <th data-key="special">Special Requests</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Rows will be populated dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div>© 2025 | All rights reserved</div>
+  </footer>
+
+  <script src="main.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

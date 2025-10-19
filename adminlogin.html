@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="adminlogin.css">
+</head>
+<body>
+  <header class="site-header">
+    <button class="hamburger" id="hamburger" aria-label="Open menu">☰</button>
+    <div class="brand">Industrial Visit</div>
+    <a class="home-btn" href="index.html">Home</a>
+  </header>
+
+  <main class="site-main">
+    <div class="login-wrap">
+      <form id="adminLogin" class="login-card" autocomplete="off">
+        <h2>Admin Login</h2>
+
+        <div class="field">
+          <label for="adminUser">Username</label>
+          <input id="adminUser" name="username" type="text" required autocomplete="username" />
+        </div>
+
+        <div class="field">
+          <label for="adminPass">Password</label>
+          <div class="pw-row">
+            <input id="adminPass" name="password" type="password" required autocomplete="current-password" />
+            <button type="button" id="togglePw" aria-label="Show password">👁️</button>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn primary">Login</button>
+        </div>
+
+        <p id="msg" class="msg" aria-live="polite"></p>
+
+        <small class="hint">Use <strong>admin</strong> / <strong>Visit2025!</strong></small>
+      </form>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div>© 2025 | All rights reserved</div>
+  </footer>
+
+  <!-- JS at the end of body -->
+  <script src="main.js"></script>
+  <script src="adminlogin.js"></script>
+</body>
+</html>
