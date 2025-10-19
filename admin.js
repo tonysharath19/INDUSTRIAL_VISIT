@@ -155,20 +155,56 @@ if (!localStorage.getItem('adminLoggedIn')) {
   });
 
   // Edit Student
+  let editIndex = -1;
   function editStudent(index) {
+    editIndex = index;
     const student = students[index];
-    student.name = prompt('Edit Name:', student.name) || student.name;
-    student.branch = prompt('Edit Branch:', student.branch) || student.branch;
-    student.gender = prompt('Edit Gender:', student.gender) || student.gender;
-    student.phone = prompt('Edit Phone:', student.phone) || student.phone;
-    student.email = prompt('Edit Email:', student.email) || student.email;
-    student.meal1 = prompt('Edit Meal Day 1:', student.meal1) || student.meal1;
-    student.meal2 = prompt('Edit Meal Day 2:', student.meal2) || student.meal2;
-    student.meal3 = prompt('Edit Meal Day 3:', student.meal3) || student.meal3;
-    student.special = prompt('Edit Special Requests:', student.special) || student.special;
-    localStorage.setItem('students', JSON.stringify(students));
-    applyFilters();
+    document.getElementById('editUsn').value = student.usn;
+    document.getElementById('editName').value = student.name;
+    document.getElementById('editBranch').value = student.branch;
+    document.getElementById('editGender').value = student.gender;
+    document.getElementById('editPhone').value = student.phone;
+    document.getElementById('editEmail').value = student.email;
+    document.getElementById('editMeal1').value = student.meal1;
+    document.getElementById('editMeal2').value = student.meal2;
+    document.getElementById('editMeal3').value = student.meal3;
+    document.getElementById('editSpecial').value = student.special;
+    document.getElementById('editCharCount').textContent = `${student.special.length} / 500`;
+    document.getElementById('editModal').classList.remove('hidden');
   }
+
+  // Close modal
+  document.getElementById('closeModal').addEventListener('click', () => {
+    document.getElementById('editModal').classList.add('hidden');
+  });
+
+  // Edit form submission
+  document.getElementById('editForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (editIndex !== -1) {
+      students[editIndex] = {
+        usn: document.getElementById('editUsn').value,
+        name: document.getElementById('editName').value,
+        branch: document.getElementById('editBranch').value,
+        gender: document.getElementById('editGender').value,
+        phone: document.getElementById('editPhone').value,
+        email: document.getElementById('editEmail').value,
+        meal1: document.getElementById('editMeal1').value,
+        meal2: document.getElementById('editMeal2').value,
+        meal3: document.getElementById('editMeal3').value,
+        special: document.getElementById('editSpecial').value
+      };
+      localStorage.setItem('students', JSON.stringify(students));
+      applyFilters();
+      document.getElementById('editModal').classList.add('hidden');
+    }
+  });
+
+  // Character count for edit special
+  document.getElementById('editSpecial').addEventListener('input', (e) => {
+    const count = e.target.value.length;
+    document.getElementById('editCharCount').textContent = `${count} / 500`;
+  });
 
   // Delete Student
   function deleteStudent(index) {
