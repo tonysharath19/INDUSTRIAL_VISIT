@@ -142,6 +142,8 @@ if (!localStorage.getItem('adminLoggedIn')) {
       gender: prompt('Enter Gender:'),
       phone: prompt('Enter Phone:'),
       email: prompt('Enter Email:'),
+      bloodGroup: prompt('Enter Blood Group:'),
+      emergencyContact: prompt('Enter Emergency Contact:'),
       meal1: prompt('Meal Day 1:'),
       meal2: prompt('Meal Day 2:'),
       meal3: prompt('Meal Day 3:'),
@@ -165,6 +167,8 @@ if (!localStorage.getItem('adminLoggedIn')) {
     document.getElementById('editGender').value = student.gender;
     document.getElementById('editPhone').value = student.phone;
     document.getElementById('editEmail').value = student.email;
+    document.getElementById('editBloodGroup').value = student.bloodGroup;
+    document.getElementById('editEmergencyContact').value = student.emergencyContact;
     document.getElementById('editMeal1').value = student.meal1;
     document.getElementById('editMeal2').value = student.meal2;
     document.getElementById('editMeal3').value = student.meal3;
@@ -189,6 +193,8 @@ if (!localStorage.getItem('adminLoggedIn')) {
         gender: document.getElementById('editGender').value,
         phone: document.getElementById('editPhone').value,
         email: document.getElementById('editEmail').value,
+        bloodGroup: document.getElementById('editBloodGroup').value,
+        emergencyContact: document.getElementById('editEmergencyContact').value,
         meal1: document.getElementById('editMeal1').value,
         meal2: document.getElementById('editMeal2').value,
         meal3: document.getElementById('editMeal3').value,
@@ -217,9 +223,9 @@ if (!localStorage.getItem('adminLoggedIn')) {
 
   // Download Excel
   downloadBtn.addEventListener('click', () => {
-    let csv = 'USN,Name,Branch,Gender,Phone,Email,Meal Day 1,Meal Day 2,Meal Day 3,Special Requests\n';
+    let csv = 'USN,Name,Branch,Gender,Phone,Email,Blood Group,Emergency Contact,Meal Day 1,Meal Day 2,Meal Day 3,Special Requests\n';
     students.forEach(s => {
-      csv += `${s.usn},${s.name},${s.branch},${s.gender},${s.phone},${s.email},${s.meal1},${s.meal2},${s.meal3},${s.special.replace(/,/g,';')}\n`;
+      csv += `${s.usn},${s.name},${s.branch},${s.gender},${s.phone},${s.email},${s.bloodGroup},${s.emergencyContact},${s.meal1},${s.meal2},${s.meal3},${s.special.replace(/,/g,';')}\n`;
     });
     const blob = new Blob([csv], { type: 'text/csv' });
     const link = document.createElement('a');
