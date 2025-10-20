@@ -33,9 +33,14 @@ const totalCount = document.getElementById('totalCount');
       const row = document.createElement('tr');
       // Define the order of fields to display (matching table headers)
       const fields = ['usn', 'name', 'branch', 'gender', 'phone', 'email', 'bloodGroup', 'emergencyContact', 'meal1', 'meal2', 'meal3', 'special'];
-      fields.forEach(field => {
+      fields.forEach((field, fieldIndex) => {
         const td = document.createElement('td');
-        td.textContent = student[field] || '';
+        let value = student[field] || '';
+        // Convert USN (index 0) and Name (index 1) to uppercase
+        if (fieldIndex === 0 || fieldIndex === 1) {
+          value = value.toUpperCase();
+        }
+        td.textContent = value;
         row.appendChild(td);
       });
       // Add actions column
