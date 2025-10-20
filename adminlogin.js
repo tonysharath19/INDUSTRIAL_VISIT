@@ -24,7 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fixed credentials for simplicity
     const FIXED_ADMIN = { username: 'admin', password: 'Visit2025!' };
+    console.log('Login attempt:', u, p); // Debug
     if (u === FIXED_ADMIN.username && p === FIXED_ADMIN.password) {
+      console.log('Login successful'); // Debug
       // Mark admin as logged in (used by admin.html)
       localStorage.setItem('adminLoggedIn', 'true');
 
@@ -38,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 1000);
       return;
     } else {
+      console.log('Login failed'); // Debug
       // Invalid credentials handling
       msg.style.color = '#b91c1c';
       msg.textContent = 'Invalid username or password.';

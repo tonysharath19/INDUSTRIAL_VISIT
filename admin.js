@@ -3,6 +3,10 @@ if (localStorage.getItem('adminLoggedIn') !== 'true') {
   window.location.href = "adminlogin.html";
 }
 
+// Debug: Log that we're on admin page
+console.log('Admin page loaded, checking auth...');
+console.log('adminLoggedIn:', localStorage.getItem('adminLoggedIn'));
+
 // Logout button
 document.getElementById('logoutBtn').addEventListener('click', () => {
   localStorage.removeItem('adminLoggedIn');
