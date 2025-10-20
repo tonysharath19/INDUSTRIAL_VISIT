@@ -15,9 +15,23 @@
 
   <main class="site-main">
     <section class="hero">
-      <div class="image-holder" aria-hidden="true">
-        <!-- placeholder background image via CSS -->
-        <div class="image-caption">Image placeholder</div>
+      <div class="carousel-container">
+        <div class="carousel">
+          <div class="carousel-slide active">
+            <img src="clg.jpg" alt="College Image">
+          </div>
+          <div class="carousel-slide">
+            <img src="HAL.jpg" alt="HAL Image">
+          </div>
+          <div class="carousel-slide">
+            <img src="isro.jpeg" alt="ISRO Image">
+          </div>
+        </div>
+        <div class="carousel-dots">
+          <span class="dot active" data-slide="0"></span>
+          <span class="dot" data-slide="1"></span>
+          <span class="dot" data-slide="2"></span>
+        </div>
       </div>
     </section>
 
@@ -61,5 +75,6 @@
   </script>
 
   <script src="main.js"></script>
+  <script src="carousel.js"></script>
 </body>
 </html>

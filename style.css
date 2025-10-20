@@ -50,25 +50,55 @@
   
   .site-main{max-width:var(--maxw);margin:18px auto;padding:0 18px}
   
-  /* Hero / image holder */
-  .hero .image-holder{
+  /* Hero / carousel */
+  .carousel-container{
     height:220px;
     border-radius:12px;
-    background:linear-gradient(120deg,#e6f2ff 0%, #ffffff 60%);
     box-shadow:var(--shadow);
-    display:flex;
-    align-items:center;
-    justify-content:center;
     position:relative;
     overflow:hidden;
   }
-  .image-holder::after{
-    content:'';
-    position:absolute;
-    inset:0;
-    background-image:linear-gradient(120deg, rgba(43,108,176,0.06), rgba(43,108,176,0.02));
+  .carousel{
+    height:100%;
+    position:relative;
   }
-  .image-caption{position:relative;color:var(--muted);font-weight:600;}
+  .carousel-slide{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    opacity:0;
+    transition:opacity 0.5s ease-in-out;
+  }
+  .carousel-slide.active{
+    opacity:1;
+  }
+  .carousel-slide img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:12px;
+  }
+  .carousel-dots{
+    position:absolute;
+    bottom:15px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:8px;
+  }
+  .dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.5);
+    cursor:pointer;
+    transition:background 0.3s;
+  }
+  .dot.active{
+    background:white;
+  }
   
   /* Panel */
   .panel{margin-top:20px}
@@ -98,7 +128,7 @@
   /* Responsive */
   @media (max-width:768px){
     .brand{font-size:18px}
-    .image-holder{height:180px}
+    .carousel-container{height:180px}
     .site-header{padding:0 12px}
     .site-main{margin:12px auto;padding:0 12px}
     .card{padding:18px}
@@ -107,7 +137,7 @@
   }
   @media (max-width:480px){
     .brand{font-size:16px}
-    .image-holder{height:140px}
+    .carousel-container{height:140px}
     .site-header{height:56px;padding:0 8px}
     .site-main{margin:8px auto;padding:0 8px}
     .card{padding:14px}
