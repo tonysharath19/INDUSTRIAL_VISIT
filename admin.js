@@ -1,26 +1,30 @@
-// Redirect to login if not authorized
-if (!localStorage.getItem('adminLoggedIn')) {
-    window.location.href = "admin-login.html";
+// Check Firebase Auth state
+window.auth.onAuthStateChanged((user) => {
+  if (!user) {
+    window.location.href = "adminlogin.html";
   }
-  
-  // Logout button
-  document.getElementById('logoutBtn').addEventListener('click', () => {
-    localStorage.removeItem('adminLoggedIn');
+});
+
+// Logout button
+document.getElementById('logoutBtn').addEventListener('click', () => {
+  window.auth.signOut().then(() => {
     window.location.href = "adminlogin.html";
   });
-  
-  // Load students
-  let students = JSON.parse(localStorage.getItem('students') || '[]');
-  const tableBody = document.querySelector('#studentsTable tbody');
-  const searchInput = document.getElementById('searchInput');
-  const branchFilter = document.getElementById('branchFilter');
-  const genderFilter = document.getElementById('genderFilter');
-  const meal1Filter = document.getElementById('meal1Filter');
-  const meal2Filter = document.getElementById('meal2Filter');
-  const meal3Filter = document.getElementById('meal3Filter');
-  const addStudentBtn = document.getElementById('addStudentBtn');
-  const downloadBtn = document.getElementById('downloadBtn');
-  const totalCount = document.getElementById('totalCount');
+});
+
+// Load students from Firestore
+let students = [];
+let studentDocs = []; // Store document references for updates/deletes
+const tableBody = document.querySelector('#studentsTable tbody');
+const searchInput = document.getElementById('searchInput');
+const branchFilter = document.getElementById('branchFilter');
+const genderFilter = document.getElementById('genderFilter');
+const meal1Filter = document.getElementById('meal1Filter');
+const meal2Filter = document.getElementById('meal2Filter');
+const meal3Filter = document.getElementById('meal3Filter');
+const addStudentBtn = document.getElementById('addStudentBtn');
+const downloadBtn = document.getElementById('downloadBtn');
+const totalCount = document.getElementById('totalCount');
 
   function renderTable(data) {
     tableBody.innerHTML = '';
@@ -134,7 +138,7 @@ if (!localStorage.getItem('adminLoggedIn')) {
   });
 
   // Add Student
-  addStudentBtn.addEventListener('click', () => {
+  addStudentBtn.addEventListener('click', async () => {
     const newStudent = {
       usn: prompt('Enter USN:'),
       name: prompt('Enter Name:'),
@@ -150,9 +154,17 @@ if (!localStorage.getItem('adminLoggedIn')) {
       special: prompt('Special Requests:')
     };
     if (newStudent.usn && newStudent.name) {
-      students.push(newStudent);
-      localStorage.setItem('students', JSON.stringify(students));
-      applyFilters();
+      try {
+        await addDoc(collection(window.db, "students"), {
+          ...newStudent,
+          usn: newStudent.usn.toLowerCase(),
+          timestamp: new Date()
+        });
+        loadStudents(); // Reload students
+      } catch (error) {
+        console.error("Error adding student: ", error);
+        alert('Error adding student');
+      }
     }
   });
 
@@ -183,11 +195,11 @@ if (!localStorage.getItem('adminLoggedIn')) {
   });
 
   // Edit form submission
-  document.getElementById('editForm').addEventListener('submit', (e) => {
+  document.getElementById('editForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     if (editIndex !== -1) {
-      students[editIndex] = {
-        usn: document.getElementById('editUsn').value,
+      const updatedStudent = {
+        usn: document.getElementById('editUsn').value.toLowerCase(),
         name: document.getElementById('editName').value,
         branch: document.getElementById('editBranch').value,
         gender: document.getElementById('editGender').value,
@@ -200,9 +212,14 @@ if (!localStorage.getItem('adminLoggedIn')) {
         meal3: document.getElementById('editMeal3').value,
         special: document.getElementById('editSpecial').value
       };
-      localStorage.setItem('students', JSON.stringify(students));
-      applyFilters();
-      document.getElementById('editModal').classList.add('hidden');
+      try {
+        await updateDoc(doc(window.db, "students", studentDocs[editIndex]), updatedStudent);
+        loadStudents(); // Reload students
+        document.getElementById('editModal').classList.add('hidden');
+      } catch (error) {
+        console.error("Error updating student: ", error);
+        alert('Error updating student');
+      }
     }
   });
 
@@ -213,15 +230,19 @@ if (!localStorage.getItem('adminLoggedIn')) {
   });
 
   // Delete Student
-  function deleteStudent(index) {
+  async function deleteStudent(index) {
     if (confirm('Are you sure you want to delete this student?')) {
-      students.splice(index, 1);
-      localStorage.setItem('students', JSON.stringify(students));
-      applyFilters();
+      try {
+        await deleteDoc(doc(window.db, "students", studentDocs[index]));
+        loadStudents(); // Reload students
+      } catch (error) {
+        console.error("Error deleting student: ", error);
+        alert('Error deleting student');
+      }
     }
   }
 
-  // Download Excel
+// Download Excel
   downloadBtn.addEventListener('click', () => {
     let csv = 'USN,Name,Branch,Gender,Phone,Email,Blood Group,Emergency Contact,Meal Day 1,Meal Day 2,Meal Day 3,Special Requests\n';
     students.forEach(s => {
@@ -233,4 +254,25 @@ if (!localStorage.getItem('adminLoggedIn')) {
     link.download = 'students.csv';
     link.click();
   });
+
+import { collection, getDocs, doc, updateDoc, deleteDoc, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+// Load students from Firestore
+async function loadStudents() {
+  try {
+    const querySnapshot = await getDocs(collection(window.db, "students"));
+    students = [];
+    studentDocs = [];
+    querySnapshot.forEach((doc) => {
+      students.push(doc.data());
+      studentDocs.push(doc.id);
+    });
+    applyFilters();
+  } catch (error) {
+    console.error("Error loading students: ", error);
+  }
+}
+
+// Call loadStudents on page load
+loadStudents();
   

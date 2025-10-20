@@ -47,6 +47,26 @@
     <div>© 2025 | All rights reserved</div>
   </footer>
 
+  <!-- Firebase SDKs -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC2r1Lq4yaHllOG4mbSytFbDIEvcuwmeSQ",
+      authDomain: "industry-visit-e5d29.firebaseapp.com",
+      projectId: "industry-visit-e5d29",
+      storageBucket: "industry-visit-e5d29.firebasestorage.app",
+      messagingSenderId: "1022386967609",
+      appId: "1:1022386967609:web:f30b891c7a566a63a3a9e8",
+      measurementId: "G-FE4W7WTDFZ"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    window.auth = getAuth(app);
+  </script>
+
   <!-- JS at the end of body -->
   <script src="main.js"></script>
   <script src="adminlogin.js"></script>

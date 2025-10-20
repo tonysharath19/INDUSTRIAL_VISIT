@@ -1,3 +1,5 @@
+import { collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('studentForm');
   const successBox = document.getElementById('successBox');
@@ -9,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     charCount.textContent = `${textarea.value.length} / 500`;
   });
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const usn = form.usn.value.trim();
@@ -36,24 +38,39 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!emailValid) return alert('Please enter a valid email address.');
     if (!emergencyContactValid) return alert('Emergency contact must be 10 digits.');
 
-    // Check for duplicate USN
-    let students = JSON.parse(localStorage.getItem('students') || '[]');
-    const existingStudent = students.find(student => student.usn.toLowerCase() === usn.toLowerCase());
-    if (existingStudent) {
-      return alert('A student with this USN is already registered.');
+    try {
+      // Check for duplicate USN in Firestore
+      const q = query(collection(window.db, "students"), where("usn", "==", usn.toLowerCase()));
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        return alert('A student with this USN is already registered.');
+      }
+
+      // Save to Firestore
+      const studentData = {
+        usn: usn.toLowerCase(),
+        name,
+        branch,
+        gender,
+        phone,
+        email,
+        bloodGroup,
+        emergencyContact,
+        meal1,
+        meal2,
+        meal3,
+        special,
+        timestamp: new Date()
+      };
+
+      await addDoc(collection(window.db, "students"), studentData);
+
+      // Show success message
+      form.classList.add('hidden');
+      successBox.classList.remove('hidden');
+    } catch (error) {
+      console.error("Error adding document: ", error);
+      alert('An error occurred while submitting the form. Please try again.');
     }
-
-    // Save to localStorage
-    const studentData = {
-      usn, name, branch, gender, phone, email, bloodGroup, emergencyContact,
-      meal1, meal2, meal3, special
-    };
-
-    students.push(studentData);
-    localStorage.setItem('students', JSON.stringify(students));
-
-    // Show success message
-    form.classList.add('hidden');
-    successBox.classList.remove('hidden');
   });
 });
