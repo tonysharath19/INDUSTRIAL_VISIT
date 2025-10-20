@@ -1,15 +1,12 @@
-// Check Firebase Auth state
-window.auth.onAuthStateChanged((user) => {
-  if (!user) {
-    window.location.href = "adminlogin.html";
-  }
-});
+// Check localStorage for admin login (fallback to localStorage for simplicity)
+if (localStorage.getItem('adminLoggedIn') !== 'true') {
+  window.location.href = "adminlogin.html";
+}
 
 // Logout button
 document.getElementById('logoutBtn').addEventListener('click', () => {
-  window.auth.signOut().then(() => {
-    window.location.href = "adminlogin.html";
-  });
+  localStorage.removeItem('adminLoggedIn');
+  window.location.href = "adminlogin.html";
 });
 
 // Load students from Firestore

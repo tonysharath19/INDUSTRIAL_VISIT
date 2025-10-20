@@ -22,26 +22,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const u = userInput.value.trim();
     const p = passInput.value;
 
-    // For simplicity, use username as email (e.g., admin@admin.com)
-    const email = u + '@admin.com';
+    // Fixed credentials for simplicity
+    const FIXED_ADMIN = { username: 'admin', password: 'Visit2025!' };
+    if (u === FIXED_ADMIN.username && p === FIXED_ADMIN.password) {
+      // Mark admin as logged in (used by admin.html)
+      localStorage.setItem('adminLoggedIn', 'true');
 
-    try {
-      await signInWithEmailAndPassword(window.auth, email, p);
-      // Redirect immediately
-      window.location.href = 'admin.html';
-    } catch (error) {
-      console.error("Login error:", error);
+      // Show success message then redirect
+      msg.style.color = 'green';
+      msg.textContent = 'Login successful — redirecting...';
+
+      // Redirect after a brief delay
+      setTimeout(() => {
+        window.location.href = 'admin.html';
+      }, 1000);
+      return;
+    } else {
       // Invalid credentials handling
       msg.style.color = '#b91c1c';
       msg.textContent = 'Invalid username or password.';
-      // brief shake animation (CSS-less)
+      // brief shake animation
       form.style.transform = 'translateX(-6px)';
       setTimeout(() => form.style.transform = 'translateX(6px)', 80);
       setTimeout(() => form.style.transform = '', 160);
-
-      // Optionally clear only password for security
+      // Clear password
       passInput.value = '';
       passInput.focus();
+      return;
     }
   });
 
