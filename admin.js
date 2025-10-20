@@ -31,9 +31,11 @@ const totalCount = document.getElementById('totalCount');
     tableBody.innerHTML = '';
     data.forEach((student, index) => {
       const row = document.createElement('tr');
-      Object.values(student).forEach(value => {
+      // Define the order of fields to display (matching table headers)
+      const fields = ['usn', 'name', 'branch', 'gender', 'phone', 'email', 'bloodGroup', 'emergencyContact', 'meal1', 'meal2', 'meal3', 'special'];
+      fields.forEach(field => {
         const td = document.createElement('td');
-        td.textContent = value;
+        td.textContent = student[field] || '';
         row.appendChild(td);
       });
       // Add actions column
