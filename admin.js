@@ -61,7 +61,6 @@ const totalCount = document.getElementById('totalCount');
   }
 
   function applyFilters() {
-    let filtered = students;
     const query = searchInput.value.toLowerCase();
     const branch = branchFilter.value;
     const gender = genderFilter.value;
@@ -69,56 +68,58 @@ const totalCount = document.getElementById('totalCount');
     const meal2 = meal2Filter.value;
     const meal3 = meal3Filter.value;
 
+    // First, apply non-meal filters to get baseFiltered
+    let baseFiltered = students;
     if (query) {
-      filtered = filtered.filter(s => s.usn.toLowerCase().includes(query));
+      baseFiltered = baseFiltered.filter(s => s.usn.toLowerCase().includes(query));
     }
     if (branch) {
-      filtered = filtered.filter(s => s.branch === branch);
+      baseFiltered = baseFiltered.filter(s => s.branch === branch);
     }
     if (gender) {
-      filtered = filtered.filter(s => s.gender === gender);
+      baseFiltered = baseFiltered.filter(s => s.gender === gender);
     }
+
+    // Now, apply meal filters to baseFiltered to get filtered for display
+    let filtered = baseFiltered;
     if (meal1) {
-      filtered = filtered.filter(s => s.meal1.toLowerCase() === meal1.toLowerCase());
+      if (meal1.toLowerCase() === 'veg') {
+        filtered = filtered.filter(s => s.meal1.toLowerCase().includes('veg') && !s.meal1.toLowerCase().includes('non'));
+      } else if (meal1.toLowerCase() === 'non-veg') {
+        filtered = filtered.filter(s => s.meal1.toLowerCase().includes('non-veg'));
+      }
     }
     if (meal2) {
-      filtered = filtered.filter(s => s.meal2.toLowerCase() === meal2.toLowerCase());
+      if (meal2.toLowerCase() === 'veg') {
+        filtered = filtered.filter(s => s.meal2.toLowerCase().includes('veg') && !s.meal2.toLowerCase().includes('non'));
+      } else if (meal2.toLowerCase() === 'non-veg') {
+        filtered = filtered.filter(s => s.meal2.toLowerCase().includes('non-veg'));
+      }
     }
     if (meal3) {
-      filtered = filtered.filter(s => s.meal3.toLowerCase() === meal3.toLowerCase());
+      if (meal3.toLowerCase() === 'veg') {
+        filtered = filtered.filter(s => s.meal3.toLowerCase().includes('veg') && !s.meal3.toLowerCase().includes('non'));
+      } else if (meal3.toLowerCase() === 'non-veg') {
+        filtered = filtered.filter(s => s.meal3.toLowerCase().includes('non-veg'));
+      }
     }
     renderTable(filtered);
 
-    // Check if any filter is active
-    const filterActive = query || branch || gender || meal1 || meal2 || meal3;
-    if (filterActive) {
-      let countText = '';
-      // Calculate meal counts only for active meal filters
-      if (meal1) {
-        const day1Veg = filtered.filter(s => s.meal1.toLowerCase().includes('veg')).length;
-        const day1NonVeg = filtered.filter(s => s.meal1.toLowerCase().includes('non-veg')).length;
-        countText += `Day 1 Veg: ${day1Veg} Non Veg: ${day1NonVeg}`;
-      }
-      if (meal2) {
-        if (countText) countText += ', ';
-        const day2Veg = filtered.filter(s => s.meal2.toLowerCase().includes('veg')).length;
-        const day2NonVeg = filtered.filter(s => s.meal2.toLowerCase().includes('non-veg')).length;
-        countText += `Day 2 Veg: ${day2Veg} Non Veg: ${day2NonVeg}`;
-      }
-      if (meal3) {
-        if (countText) countText += ', ';
-        const day3Veg = filtered.filter(s => s.meal3.toLowerCase().includes('veg')).length;
-        const day3NonVeg = filtered.filter(s => s.meal3.toLowerCase().includes('non-veg')).length;
-        countText += `Day 3 Veg: ${day3Veg} Non Veg: ${day3NonVeg}`;
-      }
-      if (!meal1 && !meal2 && !meal3) {
-        // If no meal filters active, show total
-        countText = `Total: ${filtered.length}`;
-      }
-      totalCount.textContent = countText;
-    } else {
-      totalCount.textContent = `Total: ${filtered.length}`;
-    }
+    // Always calculate and display veg/non-veg counts for each day from baseFiltered
+    let countText = '';
+    const day1Veg = baseFiltered.filter(s => s.meal1.toLowerCase().includes('veg') && !s.meal1.toLowerCase().includes('non')).length;
+    const day1NonVeg = baseFiltered.filter(s => s.meal1.toLowerCase().includes('non-veg')).length;
+    countText += `Day 1 Veg: ${day1Veg} Non Veg: ${day1NonVeg}`;
+
+    const day2Veg = baseFiltered.filter(s => s.meal2.toLowerCase().includes('veg') && !s.meal2.toLowerCase().includes('non')).length;
+    const day2NonVeg = baseFiltered.filter(s => s.meal2.toLowerCase().includes('non-veg')).length;
+    countText += `, Day 2 Veg: ${day2Veg} Non Veg: ${day2NonVeg}`;
+
+    const day3Veg = baseFiltered.filter(s => s.meal3.toLowerCase().includes('veg') && !s.meal3.toLowerCase().includes('non')).length;
+    const day3NonVeg = baseFiltered.filter(s => s.meal3.toLowerCase().includes('non-veg')).length;
+    countText += `, Day 3 Veg: ${day3Veg} Non Veg: ${day3NonVeg}`;
+
+    totalCount.textContent = countText;
   }
 
   // Initial render
