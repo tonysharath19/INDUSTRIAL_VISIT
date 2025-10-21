@@ -109,15 +109,15 @@ const totalCount = document.getElementById('totalCount');
     let countText = '';
     const day1Veg = baseFiltered.filter(s => s.meal1.toLowerCase().includes('veg') && !s.meal1.toLowerCase().includes('non')).length;
     const day1NonVeg = baseFiltered.filter(s => s.meal1.toLowerCase().includes('non-veg')).length;
-    countText += `Day 1 Veg: ${day1Veg} Non Veg: ${day1NonVeg}`;
+    countText += `Day 1: Veg: ${day1Veg}, Non-Veg: ${day1NonVeg}\n`;
 
     const day2Veg = baseFiltered.filter(s => s.meal2.toLowerCase().includes('veg') && !s.meal2.toLowerCase().includes('non')).length;
     const day2NonVeg = baseFiltered.filter(s => s.meal2.toLowerCase().includes('non-veg')).length;
-    countText += `, Day 2 Veg: ${day2Veg} Non Veg: ${day2NonVeg}`;
+    countText += `Day 2: Veg: ${day2Veg}, Non-Veg: ${day2NonVeg}\n`;
 
     const day3Veg = baseFiltered.filter(s => s.meal3.toLowerCase().includes('veg') && !s.meal3.toLowerCase().includes('non')).length;
     const day3NonVeg = baseFiltered.filter(s => s.meal3.toLowerCase().includes('non-veg')).length;
-    countText += `, Day 3 Veg: ${day3Veg} Non Veg: ${day3NonVeg}`;
+    countText += `Day 3: Veg: ${day3Veg}, Non-Veg: ${day3NonVeg}`;
 
     totalCount.textContent = countText;
   }
@@ -147,34 +147,50 @@ const totalCount = document.getElementById('totalCount');
   });
 
   // Add Student
-  addStudentBtn.addEventListener('click', async () => {
+  addStudentBtn.addEventListener('click', () => {
+    document.getElementById('addModal').classList.remove('hidden');
+  });
+
+  // Close add modal
+  document.getElementById('closeAddModal').addEventListener('click', () => {
+    document.getElementById('addModal').classList.add('hidden');
+  });
+
+  // Add form submission
+  document.getElementById('addForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
     const newStudent = {
-      usn: prompt('Enter USN:'),
-      name: prompt('Enter Name:'),
-      branch: prompt('Enter Branch:'),
-      gender: prompt('Enter Gender:'),
-      phone: prompt('Enter Phone:'),
-      email: prompt('Enter Email:'),
-      bloodGroup: prompt('Enter Blood Group:'),
-      emergencyContact: prompt('Enter Emergency Contact:'),
-      meal1: prompt('Meal Day 1:'),
-      meal2: prompt('Meal Day 2:'),
-      meal3: prompt('Meal Day 3:'),
-      special: prompt('Special Requests:')
+      usn: document.getElementById('addUsn').value.toLowerCase(),
+      name: document.getElementById('addName').value,
+      branch: document.getElementById('addBranch').value,
+      gender: document.getElementById('addGender').value,
+      phone: document.getElementById('addPhone').value,
+      email: document.getElementById('addEmail').value,
+      bloodGroup: document.getElementById('addBloodGroup').value,
+      emergencyContact: document.getElementById('addEmergencyContact').value,
+      meal1: document.getElementById('addMeal1').value,
+      meal2: document.getElementById('addMeal2').value,
+      meal3: document.getElementById('addMeal3').value,
+      special: document.getElementById('addSpecial').value
     };
-    if (newStudent.usn && newStudent.name) {
-      try {
-        await addDoc(collection(window.db, "students"), {
-          ...newStudent,
-          usn: newStudent.usn.toLowerCase(),
-          timestamp: new Date()
-        });
-        loadStudents(); // Reload students
-      } catch (error) {
-        console.error("Error adding student: ", error);
-        alert('Error adding student');
-      }
+    try {
+      await addDoc(collection(window.db, "students"), {
+        ...newStudent,
+        timestamp: new Date()
+      });
+      loadStudents(); // Reload students
+      document.getElementById('addModal').classList.add('hidden');
+      document.getElementById('addForm').reset();
+    } catch (error) {
+      console.error("Error adding student: ", error);
+      alert('Error adding student');
     }
+  });
+
+  // Character count for add special
+  document.getElementById('addSpecial').addEventListener('input', (e) => {
+    const count = e.target.value.length;
+    document.getElementById('addCharCount').textContent = `${count} / 500`;
   });
 
   // Edit Student

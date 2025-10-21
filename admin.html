@@ -202,6 +202,110 @@
     </div>
   </div>
 
+  <!-- Add Student Modal -->
+  <div id="addModal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close" id="closeAddModal">&times;</span>
+      <h2>Add Student</h2>
+      <form id="addForm" novalidate>
+        <div class="form-group">
+          <label for="addUsn">USN</label>
+          <input type="text" id="addUsn" name="usn" maxlength="10" pattern="[A-Za-z0-9]{10}" required>
+        </div>
+
+        <div class="form-group">
+          <label for="addName">Full Name</label>
+          <input type="text" id="addName" name="name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="addBranch">Branch</label>
+          <select id="addBranch" name="branch" required>
+            <option value="">Select branch</option>
+            <option value="AIML">AIML</option>
+            <option value="AIDS">AIDS</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="addGender">Gender</label>
+          <select id="addGender" name="gender" required>
+            <option value="">Select gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="addPhone">Phone Number</label>
+          <input type="tel" id="addPhone" name="phone" maxlength="10" pattern="[0-9]{10}" required>
+        </div>
+
+        <div class="form-group">
+          <label for="addEmail">Email</label>
+          <input type="email" id="addEmail" name="email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="addBloodGroup">Blood Group</label>
+          <select id="addBloodGroup" name="bloodGroup" required>
+            <option value="">Select blood group</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="addEmergencyContact">Emergency Contact Phone Number</label>
+          <input type="tel" id="addEmergencyContact" name="emergencyContact" maxlength="10" pattern="[0-9]{10}" required>
+        </div>
+
+        <h3>Meal Preferences</h3>
+        <div class="form-row">
+          <label for="addMeal1">Day 1 (Thursday)</label>
+          <select id="addMeal1" name="meal1" required>
+            <option value="">Select</option>
+            <option value="Veg">Veg</option>
+            <option value="Non-Veg">Non-Veg</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="addMeal2">Day 2 (Friday)</label>
+          <select id="addMeal2" name="meal2" required>
+            <option value="">Select</option>
+            <option value="Veg">Veg</option>
+            <option value="Non-Veg">Non-Veg</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="addMeal3">Day 3 (Saturday)</label>
+          <select id="addMeal3" name="meal3" required>
+            <option value="">Select</option>
+            <option value="Veg">Veg</option>
+            <option value="Non-Veg">Non-Veg</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="addSpecial">Special Requests / Information (Health or Other)</label>
+          <textarea id="addSpecial" name="special" maxlength="500" rows="4" required></textarea>
+          <small id="addCharCount">0 / 500</small>
+        </div>
+
+        <button type="submit" class="btn primary">Add Student</button>
+      </form>
+    </div>
+  </div>
+
   <footer class="site-footer">
     <div>© 2025 | All rights reserved</div>
   </footer>
