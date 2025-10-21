@@ -109,17 +109,17 @@ const totalCount = document.getElementById('totalCount');
     let countText = '';
     const day1Veg = baseFiltered.filter(s => s.meal1.toLowerCase().includes('veg') && !s.meal1.toLowerCase().includes('non')).length;
     const day1NonVeg = baseFiltered.filter(s => s.meal1.toLowerCase().includes('non-veg')).length;
-    countText += `Day 1: Veg: ${day1Veg}, Non-Veg: ${day1NonVeg}\n`;
+    countText += `Day 1: Veg: ${day1Veg}, Non-Veg: ${day1NonVeg}<br>`;
 
     const day2Veg = baseFiltered.filter(s => s.meal2.toLowerCase().includes('veg') && !s.meal2.toLowerCase().includes('non')).length;
     const day2NonVeg = baseFiltered.filter(s => s.meal2.toLowerCase().includes('non-veg')).length;
-    countText += `Day 2: Veg: ${day2Veg}, Non-Veg: ${day2NonVeg}\n`;
+    countText += `Day 2: Veg: ${day2Veg}, Non-Veg: ${day2NonVeg}<br>`;
 
     const day3Veg = baseFiltered.filter(s => s.meal3.toLowerCase().includes('veg') && !s.meal3.toLowerCase().includes('non')).length;
     const day3NonVeg = baseFiltered.filter(s => s.meal3.toLowerCase().includes('non-veg')).length;
     countText += `Day 3: Veg: ${day3Veg}, Non-Veg: ${day3NonVeg}`;
 
-    totalCount.textContent = countText;
+    totalCount.innerHTML = countText;
   }
 
   // Initial render
