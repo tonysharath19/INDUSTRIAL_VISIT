@@ -159,21 +159,29 @@ const totalCount = document.getElementById('totalCount');
   // Add form submission
   document.getElementById('addForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const newStudent = {
-      usn: document.getElementById('addUsn').value.toLowerCase(),
-      name: document.getElementById('addName').value,
-      branch: document.getElementById('addBranch').value,
-      gender: document.getElementById('addGender').value,
-      phone: document.getElementById('addPhone').value,
-      email: document.getElementById('addEmail').value,
-      bloodGroup: document.getElementById('addBloodGroup').value,
-      emergencyContact: document.getElementById('addEmergencyContact').value,
-      meal1: document.getElementById('addMeal1').value,
-      meal2: document.getElementById('addMeal2').value,
-      meal3: document.getElementById('addMeal3').value,
-      special: document.getElementById('addSpecial').value
-    };
+    const usn = document.getElementById('addUsn').value.toLowerCase();
     try {
+      // Check for duplicate USN in Firestore
+      const q = query(collection(window.db, "students"), where("usn", "==", usn));
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        return alert('A student with this USN is already registered.');
+      }
+
+      const newStudent = {
+        usn: usn,
+        name: document.getElementById('addName').value,
+        branch: document.getElementById('addBranch').value,
+        gender: document.getElementById('addGender').value,
+        phone: document.getElementById('addPhone').value,
+        email: document.getElementById('addEmail').value,
+        bloodGroup: document.getElementById('addBloodGroup').value,
+        emergencyContact: document.getElementById('addEmergencyContact').value,
+        meal1: document.getElementById('addMeal1').value,
+        meal2: document.getElementById('addMeal2').value,
+        meal3: document.getElementById('addMeal3').value,
+        special: document.getElementById('addSpecial').value
+      };
       await addDoc(collection(window.db, "students"), {
         ...newStudent,
         timestamp: new Date()
@@ -223,21 +231,32 @@ const totalCount = document.getElementById('totalCount');
   document.getElementById('editForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     if (editIndex !== -1) {
-      const updatedStudent = {
-        usn: document.getElementById('editUsn').value.toLowerCase(),
-        name: document.getElementById('editName').value,
-        branch: document.getElementById('editBranch').value,
-        gender: document.getElementById('editGender').value,
-        phone: document.getElementById('editPhone').value,
-        email: document.getElementById('editEmail').value,
-        bloodGroup: document.getElementById('editBloodGroup').value,
-        emergencyContact: document.getElementById('editEmergencyContact').value,
-        meal1: document.getElementById('editMeal1').value,
-        meal2: document.getElementById('editMeal2').value,
-        meal3: document.getElementById('editMeal3').value,
-        special: document.getElementById('editSpecial').value
-      };
+      const usn = document.getElementById('editUsn').value.toLowerCase();
+      const originalUsn = students[editIndex].usn.toLowerCase();
       try {
+        // Check for duplicate USN if USN has changed
+        if (usn !== originalUsn) {
+          const q = query(collection(window.db, "students"), where("usn", "==", usn));
+          const querySnapshot = await getDocs(q);
+          if (!querySnapshot.empty) {
+            return alert('A student with this USN is already registered.');
+          }
+        }
+
+        const updatedStudent = {
+          usn: usn,
+          name: document.getElementById('editName').value,
+          branch: document.getElementById('editBranch').value,
+          gender: document.getElementById('editGender').value,
+          phone: document.getElementById('editPhone').value,
+          email: document.getElementById('editEmail').value,
+          bloodGroup: document.getElementById('editBloodGroup').value,
+          emergencyContact: document.getElementById('editEmergencyContact').value,
+          meal1: document.getElementById('editMeal1').value,
+          meal2: document.getElementById('editMeal2').value,
+          meal3: document.getElementById('editMeal3').value,
+          special: document.getElementById('editSpecial').value
+        };
         await updateDoc(doc(window.db, "students", studentDocs[editIndex]), updatedStudent);
         loadStudents(); // Reload students
         document.getElementById('editModal').classList.add('hidden');
@@ -280,7 +299,7 @@ const totalCount = document.getElementById('totalCount');
     link.click();
   });
 
-import { collection, getDocs, doc, updateDoc, deleteDoc, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+import { collection, getDocs, doc, updateDoc, deleteDoc, addDoc, query, where } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
 // Load students from Firestore
 async function loadStudents() {
