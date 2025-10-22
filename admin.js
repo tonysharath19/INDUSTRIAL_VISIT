@@ -26,11 +26,16 @@ const meal3Filter = document.getElementById('meal3Filter');
 const addStudentBtn = document.getElementById('addStudentBtn');
 const downloadBtn = document.getElementById('downloadBtn');
 const totalCount = document.getElementById('totalCount');
+const totalStudentsCount = document.getElementById('totalStudentsCount');
 
   function renderTable(data) {
     tableBody.innerHTML = '';
     data.forEach((student, index) => {
       const row = document.createElement('tr');
+      // Add serial number as first column
+      const slNoTd = document.createElement('td');
+      slNoTd.textContent = index + 1;
+      row.appendChild(slNoTd);
       // Define the order of fields to display (matching table headers)
       const fields = ['usn', 'name', 'branch', 'gender', 'phone', 'email', 'bloodGroup', 'emergencyContact', 'meal1', 'meal2', 'meal3', 'special'];
       fields.forEach((field, fieldIndex) => {
@@ -104,6 +109,9 @@ const totalCount = document.getElementById('totalCount');
       }
     }
     renderTable(filtered);
+
+    // Update total students count
+    totalStudentsCount.textContent = `Total Students: ${filtered.length}`;
 
     // Always calculate and display veg/non-veg counts for each day from baseFiltered
     let countText = '';
@@ -288,9 +296,9 @@ const totalCount = document.getElementById('totalCount');
 
 // Download Excel
   downloadBtn.addEventListener('click', () => {
-    let csv = 'USN,Name,Branch,Gender,Phone,Email,Blood Group,Emergency Contact,Meal Day 1,Meal Day 2,Meal Day 3,Special Requests\n';
-    students.forEach(s => {
-      csv += `${s.usn},${s.name},${s.branch},${s.gender},${s.phone},${s.email},${s.bloodGroup},${s.emergencyContact},${s.meal1},${s.meal2},${s.meal3},${s.special.replace(/,/g,';')}\n`;
+    let csv = 'Sl No,USN,Name,Branch,Gender,Phone,Email,Blood Group,Emergency Contact,Meal Day 1,Meal Day 2,Meal Day 3,Special Requests\n';
+    students.forEach((s, index) => {
+      csv += `${index + 1},${s.usn},${s.name},${s.branch},${s.gender},${s.phone},${s.email},${s.bloodGroup},${s.emergencyContact},${s.meal1},${s.meal2},${s.meal3},${s.special.replace(/,/g,';')}\n`;
     });
     const blob = new Blob([csv], { type: 'text/csv' });
     const link = document.createElement('a');
